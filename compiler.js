@@ -9,12 +9,12 @@ function compile(scriptPath) {
     },
     mode: 'development',
     entry: scriptPath,
-    target: 'webworker',
+    target: 'es6',
     devtool: 'eval',
     module: {
       rules: [
         {
-          test: /\.wasm$/,
+          test: /\.(png|jpe?g|gif|wasm)$/i,
           use: ['@scytheapp/arraybuffer-loader']
         }
       ]

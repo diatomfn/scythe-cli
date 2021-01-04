@@ -1,10 +1,10 @@
-function parse(output) {
+function parse(output, sourceMap) {
     let toLog = []
     output.forEach(line => {
         line.values.forEach(val => {
             switch(val.type) {
                 case 'object':
-                    toLog.push(convertObject(val))
+                    toLog.push(convertObject(val, sourceMap))
                     break
                 default:
                     toLog.push(val.value)
@@ -22,15 +22,15 @@ function getError(boxObject) {
     }
 
     // Ducktype checking for error
-    if (boxObject.prototype && boxObject.value["description"] && boxObject.value["message"] && boxObject.value["stack"]) {
+    if (boxObject.prototype && boxObject.value["message"] && boxObject.value["stack"]) {
         return boxObject.value["stack"].value
     }
 
     return false
 }
 
-function convertObject(boxObject) {
-    const errCheck = getError(boxObject)
+function convertObject(boxObject, sourceMap) {
+    const errCheck = getError(boxObject, sourceMap)
     if (errCheck) return errCheck
 
     let object = new Object()
